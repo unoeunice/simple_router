@@ -1,0 +1,6 @@
+http://127.0.0.1:3000/albums
+  http://127.0.0.1:3000/comments
+  http://127.0.0.1:3000/photos
+  http://127.0.0.1:3000/posts
+  http://127.0.0.1:3000/todos
+  http://127.0.0.1:3000/users
