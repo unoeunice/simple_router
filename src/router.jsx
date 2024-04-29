@@ -1,9 +1,11 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import { Todos } from "./pages/Todos";
 import { Users } from "./pages/Users";
 import { Posts } from "./pages/Posts";
 import { Post_info } from "./pages/Post_info";
 import { User_info } from "./pages/User_info";
+import { NewPost } from "./pages/NewPost";
+import { Edit } from "./pages/Edit";
 
 import { Error } from "./pages/Error";
 
@@ -11,6 +13,7 @@ import { Wrap } from "./pages/Wrap";
 
 import axios from "axios";
 import "./pages/stylespages.css";
+import { v4 as uuidv4 } from "uuid";
 
 export const router = createBrowserRouter([
   { path: "/", element: <Todos /> },
@@ -49,9 +52,12 @@ export const router = createBrowserRouter([
       { index: true, element: <Posts /> },
       {
         path: ":id",
+
         errorElement: <Error />,
 
-        element: <Post_info />, //Post_info receive the fetch result from loader
+        element: <Post_info />,
+
+        //Post_info receive the fetch result from loader
         loader: ({ params, request: { signal } }) => {
           let endpoints = [
             `http://127.0.0.1:3000/posts/${params.id}`,
@@ -64,6 +70,55 @@ export const router = createBrowserRouter([
               signal,
             }
           );
+        },
+      },
+      {
+        path: ":id/edit",
+        element: <Edit />,
+        action: async ({ request, params }) => {
+          const formData = await request.formData();
+
+          let body = formData.get("body");
+          let title = formData.get("title");
+          let userId = formData.get("userId");
+
+          console.log(params.id);
+
+          const newPost = await fetch(
+            `http://127.0.0.1:3000/posts/${params.id}`,
+            {
+              method: "PUT",
+              signal: request.signal,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ title, body, userId, id: params.id }),
+            }
+          ).then((res) => res.json());
+
+          console.log(newPost);
+
+          return redirect(`/posts/${params.id}`);
+        },
+      },
+      {
+        path: "new",
+        element: <NewPost />,
+        action: async ({ request }) => {
+          const formData = await request.formData();
+
+          let body = formData.get("body");
+          let title = formData.get("title");
+          let userId = formData.get("userId");
+
+          const newPost = await fetch("http://127.0.0.1:3000/posts", {
+            method: "POST",
+            signal: request.signal,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title, body, userId, id: uuidv4() }),
+          }).then((res) => res.json());
+
+          console.log(newPost);
+
+          return redirect("/posts");
         },
       },
     ],

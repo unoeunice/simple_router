@@ -1,14 +1,17 @@
 import "./stylespages.css";
 import { useLoaderData } from "react-router-dom";
 import { Nav } from "../Nav";
-import { Link } from "react-router-dom";
+import { Link, useNavigation, Outlet } from "react-router-dom";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 export function Post_info() {
   const information = useLoaderData();
+
   let post_info = information[0].data;
+
+  let postId = post_info.id;
 
   let userId = post_info.userId;
 
@@ -28,9 +31,15 @@ export function Post_info() {
       <Nav />
       {/* {console.log(post_info)}
 
-
-
       {console.log(comments)} */}
+      <div className="title-btns">
+        <Link
+          className="btn btn-outline"
+          to={`/posts/${postId.toString()}/edit`}
+        >
+          Edit
+        </Link>
+      </div>
 
       <div className="container">
         <h1 className="page-title">{post_info.title}</h1>
@@ -74,6 +83,13 @@ export function Post_info() {
     coz it is not resolved
     promise can only be resolved inside then
     so you can put setUser inside then statement to get the user in rendering 
+
+
+    kyle:
+    const promise = axios.get(url).then(response => response.data)
+return <div>{promise}</div>
+It should be pretty obvious that your promise variable is just a Promise object and not the actual data being returned from your Promise. You would need to await your Promise in order to get the value, but since React components cannot be async (at least in normal React code) this is not possible. 
+This is why we must use useEffect instead anytime we have async code inside our components.
 
 
 

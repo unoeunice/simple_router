@@ -4,6 +4,7 @@ import { Error } from "./Error";
 import { useEffect, useState } from "react";
 import "./stylespages.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export function Posts() {
   const [post, setPost] = useState([]);
@@ -20,6 +21,12 @@ export function Posts() {
   return (
     <div>
       <Nav />
+      <div className="title-btns">
+        <Link className="btn btn-outline" to="/posts/new">
+          New
+        </Link>
+      </div>
+
       <div className={spinner ? "loading-spinner" : ""}>
         <h1 className="page-title">Posts</h1>
 
