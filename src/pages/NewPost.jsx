@@ -1,8 +1,28 @@
 import "./stylespages.css";
 import { Nav } from "../Nav";
-import { Form, Link } from "react-router-dom";
+import { Form, Link, useActionData } from "react-router-dom";
 
 export function NewPost() {
+  let Errors = useActionData();
+
+  let x;
+  let y;
+  let z;
+
+  //useActionData() may throw null/object, if dont check whether the return data is array, using map will throw error
+
+  if (Array.isArray(Errors)) {
+    Errors.map((item) => {
+      if (item.type.includes("title")) {
+        x = 1;
+      } else if (item.type.includes("body")) {
+        y = 1;
+      } else if (item.type.includes("author")) {
+        z = 1;
+      }
+    });
+  }
+
   return (
     <div>
       <Nav />
@@ -14,7 +34,8 @@ export function NewPost() {
             <div className="form-group error">
               <label htmlFor="title">Title</label>
               <input type="text" name="title" id="title" />
-              <div className="error-message">Required</div>
+
+              {x == 1 ? <div className="error-message">required</div> : null}
             </div>
             <div className="form-group">
               <label htmlFor="userId">Author</label>
@@ -31,18 +52,24 @@ export function NewPost() {
                 <option value="10">Clementina DuBuque</option>
               </select>
             </div>
+            {z == 1 ? <div className="error-message">required</div> : null}
           </div>
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="body">Body</label>
               <textarea className="body" name="body"></textarea>
+              <div className="form-group error">
+                {y == 1 ? <div className="error-message">required</div> : null}
+              </div>
             </div>
           </div>
           <div className="form-row form-btn-row">
             <Link className="btn btn-outline" to="/posts">
               Cancel
             </Link>
-            <button className="btn">Save</button>
+            <button className="btn" type="submit">
+              Save
+            </button>
           </div>
         </Form>
       </div>

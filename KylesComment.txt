@@ -1,0 +1,9 @@
+Overall the code looks pretty good and works well. I found it a bit interesting you decided to use loaders for some of the pages but not all of them. I would recommend using loaders for all of them or none of them to make your app more consistent. This would also make the loading spinner much easier to manage.
+
+I also noticed you used the loader for some pages,
+ but then still did an axios fetch request in the component to get more data. 
+ You should be doing all the data loading in the loader if at all possible to again simplify your code.
+
+Lastly, I would recommend adding a bit more folder structure to your code by moving the non-page based files out of the pages folder and into a separate components folder. This can make the code a bit easier to read.
+
+Other than that it looks quite good.

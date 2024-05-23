@@ -22,7 +22,6 @@ export function Post_info() {
   useEffect(() => {
     axios.get(`http://127.0.0.1:3000/users/${userId}`).then((response) => {
       setUser(response.data.name);
-      console.log("here");
     });
   }, []);
 

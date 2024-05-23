@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter, redirect, useActionData } from "react-router-dom";
 import { Todos } from "./pages/Todos";
 import { Users } from "./pages/Users";
 import { Posts } from "./pages/Posts";
@@ -45,11 +45,33 @@ export const router = createBrowserRouter([
   },
   {
     path: "/posts",
-    errorElement: <Error />,
+    // errorElement: <Error />,
     element: <Wrap />,
 
     children: [
-      { index: true, element: <Posts /> },
+      {
+        index: true,
+        element: <Posts />,
+        /*The query parameters (query and userId) appear in the URL because the default form submission method is GET, 
+        which appends the form data to the URL as query parameters.
+         This is standard behavior for forms using the GET method,  */
+
+        // loader: ({ request: { url, signal } }) => {
+        //   console.log("url", url);
+        //   const params = new URL(url).searchParams;
+        //   console.log(params);
+
+        //   const query = params.get("query");
+        //   console.log(query, "query");
+
+        //   return axios.get("http://127.0.0.1:3000/posts", {
+        //     signal,
+        //   });
+
+        //   return redirect("/posts/");
+        // },
+      },
+
       {
         path: ":id",
 
@@ -78,11 +100,29 @@ export const router = createBrowserRouter([
         action: async ({ request, params }) => {
           const formData = await request.formData();
 
+          let errors = [];
+
           let body = formData.get("body");
           let title = formData.get("title");
           let userId = formData.get("userId");
 
           console.log(params.id);
+
+          if (title.length === 0) {
+            errors.push({ id: uuidv4(), type: "title" }); //uuidv4()
+          }
+
+          if (body.length === 0) {
+            errors.push({ id: uuidv4(), type: "body" });
+          }
+
+          if (userId == null) {
+            errors.push({ id: uuidv4(), type: "author" });
+          }
+
+          if (errors.length) {
+            return errors;
+          }
 
           const newPost = await fetch(
             `http://127.0.0.1:3000/posts/${params.id}`,
@@ -90,7 +130,7 @@ export const router = createBrowserRouter([
               method: "PUT",
               signal: request.signal,
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ title, body, userId, id: params.id }),
+              body: JSON.stringify({ userId, id: params.id, title, body }),
             }
           ).then((res) => res.json());
 
@@ -103,11 +143,28 @@ export const router = createBrowserRouter([
         path: "new",
         element: <NewPost />,
         action: async ({ request }) => {
+          let errors = [];
           const formData = await request.formData();
 
           let body = formData.get("body");
           let title = formData.get("title");
           let userId = formData.get("userId");
+
+          if (title.length === 0) {
+            errors.push({ id: uuidv4(), type: "title" }); //uuidv4()
+          }
+
+          if (body.length === 0) {
+            errors.push({ id: uuidv4(), type: "body" });
+          }
+
+          if (userId == null) {
+            errors.push({ id: uuidv4(), type: "author" });
+          }
+
+          if (errors.length) {
+            return errors;
+          }
 
           const newPost = await fetch("http://127.0.0.1:3000/posts", {
             method: "POST",
