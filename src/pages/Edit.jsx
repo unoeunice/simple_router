@@ -31,10 +31,13 @@ export function Edit() {
 
         <Form method="post" className="form">
           <div className="form-row">
-            <div className="form-group error">
+            <div className="form-group">
+              {" "}
               <label htmlFor="title">Title</label>
               <input type="text" name="title" id="title" />
-              {x == 1 ? <div className="error-message">required</div> : null}
+              <div className="form-group error">
+                {x == 1 ? <div className="error-message">required</div> : null}
+              </div>
             </div>
             <div className="form-group">
               <label htmlFor="userId">Author</label>
