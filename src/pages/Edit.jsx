@@ -1,9 +1,13 @@
 import "./stylespages.css";
 import { Nav } from "../Nav";
-import { Form, Link, useActionData } from "react-router-dom";
+import { Form, Link, useActionData, useNavigation } from "react-router-dom";
 
 export function Edit() {
   let Errors = useActionData();
+  const { state } = useNavigation();
+
+  const submitting = state === "submitting";
+
   let x;
   let y;
   let z;
@@ -69,7 +73,9 @@ export function Edit() {
             <Link className="btn btn-outline" to="/posts">
               Cancel
             </Link>
-            <button className="btn">Save</button>
+            <button disabled={submitting} className="btn">
+              {submitting ? "Loading" : "Save"}
+            </button>
           </div>
         </Form>
       </div>

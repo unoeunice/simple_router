@@ -39007,10 +39007,10 @@
   ],
   "posts": [
     {
-      "userId": "1",
+      "userId": "9",
       "id": 1,
-      "title": "second post",
-      "body": "second post"
+      "title": "Weekend activity",
+      "body": "Lets go swimming in this sunny weather"
     },
     {
       "userId": "1",
@@ -39713,6 +39713,30 @@
       "body": "me",
       "userId": "4",
       "id": "5aa01066-0cb2-47ce-8938-74f2b5556a58"
+    },
+    {
+      "title": "hello world",
+      "body": "This is a post from Dennis",
+      "userId": "6",
+      "id": "dfe005e4-f4fb-49ea-8fde-ac8bc472645f"
+    },
+    {
+      "title": "Chelsey post",
+      "body": "Hello, this is a post from Chelsey",
+      "userId": "5",
+      "id": "c135c952-1de3-4cf1-aacf-e10bac64bbd8"
+    },
+    {
+      "title": "Hi ",
+      "body": "Hi from Kurtis",
+      "userId": "7",
+      "id": "0d0e7715-c47f-4100-997a-c27abe12ae0b"
+    },
+    {
+      "title": "Today is a good day ",
+      "body": "Today is sunny",
+      "userId": "9",
+      "id": "e537584d-34b2-4faa-9699-1a48a240f6f4"
     }
   ],
   "todos": [

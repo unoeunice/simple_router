@@ -1,9 +1,13 @@
 import "./stylespages.css";
 import { Nav } from "../Nav";
-import { Form, Link, useActionData } from "react-router-dom";
+import { Form, Link, useActionData, useNavigation } from "react-router-dom";
 
 export function NewPost() {
   let Errors = useActionData();
+
+  const { state } = useNavigation();
+
+  const isSubmitting = state === "submitting";
 
   let x;
   let y;
@@ -70,8 +74,8 @@ export function NewPost() {
             <Link className="btn btn-outline" to="/posts">
               Cancel
             </Link>
-            <button className="btn" type="submit">
-              Save
+            <button disabled={isSubmitting} className="btn" type="submit">
+              {isSubmitting ? "loading" : "Save"}
             </button>
           </div>
         </Form>
